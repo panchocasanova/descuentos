@@ -1,0 +1,32 @@
+<!-- <p>componente padre - masivas works!</p>
+{{isVisible | json }} -->
+<!-- begin::Row -->
+<div class="row g-5 g-xl-2">
+  <div class="col-xl-4">
+    <app-buscador class="card card-xl-stretch mb-xl-8" (funcionarios) = recibirListado($event)></app-buscador>
+  </div>
+  <div class="col-xl-4">
+    <app-buscadorrut  class="card card-xl-stretch mb-xl-8" (funcionarioSeleccionado) = seleccionado($event)></app-buscadorrut>
+  </div>
+  <div class="col-xl-12" *ngIf="componenteHijo">
+    <!-- Aca colorcar otro componente de ser necesasrio-->
+    <app-listar-funcionarios
+    class="card card-xl-stretch mb-xl-8"
+    *ngIf="listadoFuncionarios.length > 0"
+    [listadoPadre] = "listadoFuncionarios"
+    (funcionarioSeleccionado) = seleccionado($event)></app-listar-funcionarios>
+  </div>
+  <div class="col-xl-12" *ngIf="!componenteHijo">
+    <!--Otro componente-->
+    <app-funcionario-liquidacion *ngIf="isVisible" [usuario] ="ejemplobuscador" [funcionarioSeleccionado] = "funcionario_seleccionado"
+    class="card card-xl-stretch mb-xl-8" ></app-funcionario-liquidacion>
+  </div>
+</div>
+<!-- end::Row -->
+<!-- <pre>
+  <code>
+    {{ funcionario_seleccionado | json }}
+
+  </code>
+</pre> -->
+
