@@ -52,14 +52,44 @@ export class FuncionarioLiquidacionComponent implements OnInit {
   }
 
   generarDocumento() {
+    let timerInterval:any
+    let segundos: number = 1
+    let minutos: number = 0
     //this.isLoading = true
     Swal.fire({
-      title: 'Generando Documento',
-      html: 'Espere un momento por favor',
+      title: 'Generando Documento PDF',
+      html: 'Espere un momento por favor...<br> <b><minutos></minutos></b>:<b><segundos></segundos></b> segundos',
       allowOutsideClick: false,
+      timerProgressBar: true,
       didOpen:() =>{
+        const content = Swal.getHtmlContainer()
+        const $ = content?.querySelector.bind(content)
         Swal.showLoading()
-      }
+
+        timerInterval = setInterval(() => {
+          segundos = segundos + 1
+          if(segundos == 60){
+            minutos += 1
+            segundos = 0
+          }
+          if(minutos <= 9){
+            Swal.getHtmlContainer()!.querySelector('minutos')!.textContent = '0' + String(minutos)
+          }else{
+            Swal.getHtmlContainer()!.querySelector('minutos')!.textContent = String(minutos)
+          }
+
+          if(segundos <= 9){
+            Swal.getHtmlContainer()!.querySelector('segundos')!.textContent = '0'+String(segundos)
+          }else{
+            Swal.getHtmlContainer()!.querySelector('segundos')!.textContent = String(segundos)
+          }
+
+
+        }, 1000)
+        },
+        willClose: () => {
+          clearInterval(timerInterval)
+        }
     })
     this.formSolicitudLiquidacion.addControl('rut', this.fb.control(this.funcionarioSeleccionado.rut, Validators.required))
     //console.log(this.formSolicitudLiquidacion.value);
