@@ -10,6 +10,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MasivasRoutingModule } from './pages/masivas/masivas-routing.module';
+import { BnNgIdleModule } from 'bn-ng-idle';
+
+
+
 //import { AuthService } from './modules/auth/services/auth.service';
 //import { environment } from 'src/environments/environment';
 
@@ -35,8 +39,10 @@ import { MasivasRoutingModule } from './pages/masivas/masivas-routing.module';
     InlineSVGModule.forRoot(),
     NgbModule,
     MasivasRoutingModule,
+
   ],
   providers: [
+    BnNgIdleModule
     //{
       //provide: APP_INITIALIZER,
       //useFactory: appInitializer,
