@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MasivasRoutingModule } from './pages/masivas/masivas-routing.module';
 import { BnNgIdleModule } from 'bn-ng-idle';
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 
@@ -39,7 +41,7 @@ import { BnNgIdleModule } from 'bn-ng-idle';
     InlineSVGModule.forRoot(),
     NgbModule,
     MasivasRoutingModule,
-
+    ToastrModule.forRoot()
   ],
   providers: [
     BnNgIdleModule
