@@ -44,7 +44,7 @@ export class FuncionarioLiquidacionComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('Funcionario seleccionado',this.funcionarioSeleccionado);
+    //console.log('Funcionario seleccionado',this.funcionarioSeleccionado);
 
     this.ultimaliquidaciondisponible()
     this.mesesdelanno = this.masivaService.meses
@@ -153,7 +153,7 @@ export class FuncionarioLiquidacionComponent implements OnInit {
   }
 
   getannosactivo() {
-    // console.log("buscando años")
+    //console.log("buscando años")
     this.formAnnoFuncionario.addControl('rut', this.fb.control(this.funcionarioSeleccionado.rut, Validators.required))
     this.masivaService.getAnnos(this.formAnnoFuncionario).subscribe({
       next: (annos) => {
