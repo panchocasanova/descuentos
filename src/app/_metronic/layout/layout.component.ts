@@ -70,7 +70,7 @@ export class LayoutComponent implements OnInit, AfterViewInit {
   }
 
   expiresession(){
-    this.bnIdle.startWatching(60*1).subscribe((isTimedOut: boolean) => {
+    this.bnIdle.startWatching(60*10).subscribe((isTimedOut: boolean) => {
       if (isTimedOut) {
         let timerInterval: any
         Swal.fire({
