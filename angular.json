@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "liquidacionmasiva": {
+    "licenciasmedicas": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/liquidacionmasiva",
+            "outputPath": "dist/licenciasmedicas",
             "allowedCommonJsDependencies": [
               "object-path",
               "apexcharts",
@@ -83,10 +83,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "liquidacionmasiva:build:production"
+              "browserTarget": "licenciasmedicas:build:production"
             },
             "development": {
-              "browserTarget": "liquidacionmasiva:build:development"
+              "browserTarget": "licenciasmedicas:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -94,7 +94,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "liquidacionmasiva:build"
+            "browserTarget": "licenciasmedicas:build"
           }
         },
         "test": {
