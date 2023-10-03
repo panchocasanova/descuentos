@@ -9,6 +9,21 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
+  {
+    path: 'ingreso',
+    loadChildren:() => import('../pages/ingreso/ingreso.module').then((m) => m.IngresoModule),
+    canActivate: [AuthGuard, AuthRemuneGuard],
+    canLoad: [AuthGuard, AuthRemuneGuard]
+
+  },
+  {
+    // add informe-trimestral to the path
+    path: 'informe-trimestral',
+    loadChildren:() => import('../pages/informe-trimestral/informe-trimestral.module').then((m) => m.InformeTrimestralModule),
+    canActivate: [AuthGuard, AuthRemuneGuard],
+    canLoad: [AuthGuard, AuthRemuneGuard]
+
+  },
   // {
   //   path: 'builder',
   //   loadChildren: () =>

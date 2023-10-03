@@ -12,8 +12,7 @@ import { AppComponent } from './app.component';
 import { MasivasRoutingModule } from './pages/masivas/masivas-routing.module';
 import { BnNgIdleModule } from 'bn-ng-idle';
 import { ToastrModule } from 'ngx-toastr';
-
-
+import { InformeTrimestralRoutingModule } from './pages/informe-trimestral/informe-trimestral-routing.module';
 
 
 //import { AuthService } from './modules/auth/services/auth.service';
@@ -41,7 +40,9 @@ import { ToastrModule } from 'ngx-toastr';
     InlineSVGModule.forRoot(),
     NgbModule,
     MasivasRoutingModule,
-    ToastrModule.forRoot()
+    InformeTrimestralRoutingModule,
+    ToastrModule.forRoot(),
+
   ],
   providers: [
     BnNgIdleModule

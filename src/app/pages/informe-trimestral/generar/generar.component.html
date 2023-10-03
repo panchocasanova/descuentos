@@ -1,0 +1,50 @@
+<div class="card-header align-items-center border-0 mt-4">
+  <h3 class="card-title align-items-start flex-column">
+    <span class="fw-bolder text-dark">Generar Informe Trimestral</span>
+    <span class="text-muted mt-1 fw-bold fs-7"
+      >Informe trimestral licencias medicas</span
+    >
+  </h3>
+</div>
+
+<div class="card-body pt-3">
+  <!--crear boton -->
+  <form action="" [formGroup]="formInforme">
+    <div class="container">
+      <div class="row align-items-start">
+        <div class="col">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01"
+              >Año</label
+            >
+            <select class="form-select" id="inputGroupSelect01" formControlName="anno">
+              <option value="{{ano}}" *ngFor="let ano of this.annos">{{ano}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupSelect01"
+              >Mes</label
+            >
+            <select class="form-select" id="inputGroupSelect01" formControlName="mes">
+              <option value="{{mes.id}}" *ngFor="let mes of mesesdelanno">{{mes.descripcion}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <button type="submit" (click)="generarInforme()" class="btn btn-primary"
+            [disabled]="isLoading || formInforme.invalid">
+            <ng-container *ngIf="!isLoading">Generar Informe</ng-container>
+            <ng-container *ngIf="isLoading">
+              <span clas="indicator-progress" [style.display]="'block'">
+                Por favor espere...{{ " " }}
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+              </span>
+            </ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
