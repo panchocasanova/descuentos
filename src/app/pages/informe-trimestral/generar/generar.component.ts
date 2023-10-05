@@ -50,6 +50,8 @@ export class GenerarComponent implements OnInit {
     })
     this.informeService.getInforme(this.formInforme).subscribe({
       next: (resp) => {
+        console.log(resp);
+
         //this.isLoading = false
         const blob = new Blob([resp], { type: 'application/octet-stream' });
         const url = window.URL.createObjectURL(blob);
