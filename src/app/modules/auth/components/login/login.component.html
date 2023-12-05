@@ -17,7 +17,7 @@
 
   <!--begin::Heading-->
   <div class="text-center mb-10">
-    <h1 class="text-dark mb-3">SITIO LIQUIDACI&Oacute;N</h1>
+    <h1 class="text-dark mb-3">SITIO BONO ESCOLAR</h1>
     <div class="text-gray-400 fw-bold fs-4">
       Registrate en autentificatic
       <a
@@ -136,7 +136,7 @@
           <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
         </span>
       </ng-container>
-      <ng-container *ngIf="!(isLoading$ | async)">
+      <ng-container *ngIf="(isLoading$ | async) === false">
         <span class="indicator-label">Continuar</span>
       </ng-container>
     </button>

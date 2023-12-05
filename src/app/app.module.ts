@@ -9,11 +9,8 @@ import { InlineSVGModule } from 'ng-inline-svg-2';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MasivasRoutingModule } from './pages/masivas/masivas-routing.module';
 import { BnNgIdleModule } from 'bn-ng-idle';
 import { ToastrModule } from 'ngx-toastr';
-import { InformeTrimestralRoutingModule } from './pages/informe-trimestral/informe-trimestral-routing.module';
-
 
 //import { AuthService } from './modules/auth/services/auth.service';
 //import { environment } from 'src/environments/environment';
@@ -39,8 +36,6 @@ import { InformeTrimestralRoutingModule } from './pages/informe-trimestral/infor
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    MasivasRoutingModule,
-    InformeTrimestralRoutingModule,
     ToastrModule.forRoot(),
 
   ],
