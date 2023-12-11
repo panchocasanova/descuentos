@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit, OnDestroy {
               console.log(err)
               if(err.statusText){
                 //console.log()
-                this.Alert('error','Error', 'Servidor no disponible..')
+                this.Alert('error','Error', err.statusText)
               }else{
                 this.Alert('info','Informacion', err.error.msg)
               }
@@ -120,7 +120,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }else if(data.error.message){
             this.Alert('error','Error', data.error.message)
           }else{
-            this.Alert('error','Error', data.error)
+            this.Alert('error','Error ', data.error)
           }
         }
       },
