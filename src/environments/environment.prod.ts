@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  remuneAPI: 'http://remuneraciones-dev.carabineros.cl:8081/apilicenciasmedicas',
+  remuneAPI: 'http://remuneraciones-dev.carabineros.cl:8083/apidescuentos',
   ticAPI:'http://autentificaticapi.carabineros.cl/api',
   production: true,
   appVersion: 'v8.0.38',

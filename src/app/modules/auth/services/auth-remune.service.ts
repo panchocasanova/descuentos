@@ -14,7 +14,7 @@ import { catchError } from 'rxjs/operators';
 export class AuthRemuneService {
   private apiRemune: string = `${environment.remuneAPI}`;
   private tokenLocalStorageRemune = 'tokenRemune';
-  private sitio = 'LIQ';
+  private sitio = 'DES';
 
   constructor(private http: HttpClient, private router: Router) { }
 
