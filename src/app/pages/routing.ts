@@ -7,6 +7,11 @@ const Routing: Routes = [
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
+  {
+    path: 'descuentos',
+    loadChildren: () =>
+      import('./descuentos/descuentos.module').then((m) => m.DescuentosModule),
+  },
 
   // {
   //   path: 'builder',

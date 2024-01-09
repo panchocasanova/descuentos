@@ -8,7 +8,7 @@ import { Funcionarios, Mes } from '../interfaces/buscador-interfaces';
 @Injectable({
   providedIn: 'root'
 })
-export class MasivasService {
+export class buscadorService {
   private apiRemune: string = `${environment.remuneAPI}`;
   private tokenLocalStorageRemune = 'tokenRemune';
 
@@ -139,7 +139,7 @@ export class MasivasService {
   }
 
   buscarFuncionario(form?:FormGroup): Observable<any>{
-    const url = `${this.apiRemune}/buscar_por_rut`;
+    const url = `${this.apiRemune}/listar_funcionario`;
     const headers = new HttpHeaders()
       .set('Accept', 'application/json')
       .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())

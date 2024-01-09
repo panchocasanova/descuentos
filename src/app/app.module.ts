@@ -11,7 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BnNgIdleModule } from 'bn-ng-idle';
 import { ToastrModule } from 'ngx-toastr';
-
+import { ReactiveFormsModule } from '@angular/forms';
 //import { AuthService } from './modules/auth/services/auth.service';
 //import { environment } from 'src/environments/environment';
 
@@ -37,6 +37,7 @@ import { ToastrModule } from 'ngx-toastr';
     InlineSVGModule.forRoot(),
     NgbModule,
     ToastrModule.forRoot(),
+    ReactiveFormsModule
 
   ],
   providers: [

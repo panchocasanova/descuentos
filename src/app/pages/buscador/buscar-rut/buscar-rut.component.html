@@ -1,0 +1,83 @@
+<p>buscar-rut works!</p>
+
+<div class="card-header align-items-center border-0 mt-4">
+  <h3 class="card-title align-items-start flex-column">
+    <span class="fw-bolder text-dark">Buscar Funcionario por rut</span>
+    <span class="text-muted mt-1 fw-bold fs-7">Abra el buscador e ingrese el rut</span>
+  </h3>
+</div>
+
+<!-- begin::Body -->
+<div class="card-body pt-3">
+  <button type="submit" (click)="openModal(modal1)" class="btn btn-primary">
+    <ng-container *ngIf="!isLoadingAbrirBuscador">{{name}}</ng-container>
+    <ng-container *ngIf="isLoadingAbrirBuscador">
+      <span clas="indicator-progress" [style.display]="'block'">
+        Por favor espere...{{ " " }}
+        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+      </span>
+    </ng-container>
+  </button>
+</div>
+
+<ng-template #modal1 let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Busqueda Funcionario <br />
+      <span class="text-muted mt-2 fw-bold fs-7">Puede buscar a un funcionario por rut, sin digito verificador.</span>
+    </h4>
+
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body">
+    <!---Formulario-->
+
+    <form [formGroup]="formrut">
+      <div class="row">
+        <div class="col">
+          <input type="text"
+          id="rut"
+          class="form-control"
+          placeholder="rut"
+          aria-label="First name"
+          [ngClass]="{'is-valid': formrut.controls['rut'].errors?.minlength === null && formrut.controls['rut'].value !== '',
+        'is-invalid': formrut.controls['rut'].errors}"
+          formControlName="rut"
+          minlength="7"
+          ngbAutofocus>
+          <div class="valid-feedback">
+            <!-- ya puedes realizar una busqueda..  -->
+          </div>
+          <div *ngIf="formrut.valid === false" class="invalid-feedback" >
+            <div *ngIf="formrut.controls['rut'].errors?.required">
+              <small>rut es obligatorio</small>
+            </div>
+            <div *ngIf="formrut.controls['rut'].errors?.pattern">
+              <small>Ingrese solo numeros, sin digito verificador.</small>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </form>
+
+
+    <!---fin Formulario-->
+  </div>
+  <div class="modal-footer">
+    <button type="submit"  class="btn btn-primary col-md-4"
+      [disabled]="formrut.invalid" (click)="buscarrut()">
+      <ng-container *ngIf="!isLoading3liq">Buscar</ng-container>
+      <ng-container *ngIf="isLoading3liq">
+        <span clas="indicator-progress" [style.display]="'block'">
+          Por favor espere...{{ " " }}
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+    </button>
+    <button type="button" class="btn btn-danger" (click)="closeModal()">
+      Cerrar
+    </button>
+  </div>
+</ng-template>

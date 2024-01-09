@@ -1,10 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { BehaviorSubject } from 'rxjs';
-import { MasivasService } from './services/buscador.service';
-import { List } from './interfaces/buscador-interfaces';
-import Swal from 'sweetalert2';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { List } from '../buscador/interfaces/buscador-interfaces';
 
 @Component({
   selector: 'app-buscador',
@@ -13,80 +8,21 @@ import Swal from 'sweetalert2';
   ]
 })
 export class BuscadorComponent implements OnInit {
-  isLoadingAbrirBuscador: boolean = false;
-  isLoading3liq: boolean = false
-  modalRef: NgbModalRef;
-  @Input() name: string = 'Abrir Buscador'
-  modalMasivas: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  formbusqueda: FormGroup = this.fb.group({
-    paterno: ['', [Validators.nullValidator, Validators.minLength(4)]],
-    materno: ['', [Validators.nullValidator, Validators.minLength(4)]]
-  })
 
-
-
-
-  //funcionarios: BehaviorSubject<List[]> = new BehaviorSubject<List[]>([])
-  @Output() funcionarios: EventEmitter<List[]> = new EventEmitter<List[]>()
-
-  constructor(private modalService: NgbModal,
-    private fb: FormBuilder,
-    private masivaService: MasivasService) { }
+  constructor() { }
 
   ngOnInit(): void {
 
-
   }
 
+  @Output() funcionarioRutbuscador: EventEmitter<List> = new EventEmitter<List>
 
-
-  buscaralgo() {
-    this.isLoading3liq = true
-    this.masivaService.getFuncionarios(this.formbusqueda)?.subscribe({
-      next: (value) => {
-        if (value.status = 200) {
-          this.funcionarios.emit(value.lists)
-          this.isLoading3liq = false
-          this.closeModal()
-        }
-      },
-      error: (err) => {
-        this.isLoading3liq = false
-        this.closeModal()
-        console.log(err.error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: err.error.msg,
-          footer: 'Carabineros de Chile - Departamento Remuneraciones P.9'
-        })
+  funcionario_seleccionado: List
+  seleccionadoRut(event: List){
+    if(event){
+      this.funcionario_seleccionado = event
+      this.funcionarioRutbuscador.emit(event)
+      //this.componenteHijo = false
       }
-    })
   }
-
-  openModal(content: any) {
-    this.modalMasivas.next(true);
-    this.masivaService.toggleVisibility();
-
-    //console.log('buscador - funcionarioLiquidacionC:',this.funcionarioLiquidacionC.getValue());
-    this.modalRef = this.modalService.open(content, { backdrop: 'static', size: 'lg' });
-    this.modalRef.result.then(
-      () => {
-        // Modal cerrado
-      },
-      () => {
-        // Modal cerrado con descarte (dismiss)
-      }
-    );
-  }
-
-  closeModal() {
-    this.modalRef.close();
-    this.isLoading3liq = false
-    this.formbusqueda.reset({ paterno: '', materno: '' })
-    this.modalMasivas.next(false)
-    this.masivaService.toggleVisibility();
-
-  }
-
 }
