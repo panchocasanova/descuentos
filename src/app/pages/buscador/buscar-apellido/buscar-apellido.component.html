@@ -1,4 +1,4 @@
-<p>buscar-apellido works!</p>
+<!-- <p>buscar-apellido works!</p> -->
 <!-- <p>componente hijo - buscador works!</p> -->
 
 <div class="card-header align-items-center border-0 mt-4">
@@ -89,7 +89,7 @@
     <!---fin Formulario-->
   </div>
   <div class="modal-footer">
-    <button type="submit" (click)="buscaralgo()" class="btn btn-primary col-md-4"
+    <button type="submit" (click)="buscarnombres()" class="btn btn-primary col-md-4"
       [disabled]="(formbusqueda.controls['paterno'].value === '' || formbusqueda.controls['paterno'].value.length < 4) && (formbusqueda.controls['materno'].value === '' || formbusqueda.controls['materno'].value.length < 4)">
       <ng-container *ngIf="!isLoading3liq">Buscar</ng-container>
       <ng-container *ngIf="isLoading3liq">

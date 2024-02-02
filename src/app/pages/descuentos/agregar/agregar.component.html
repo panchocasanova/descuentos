@@ -1,2 +1,120 @@
-<p>agregar work !!</p>
-{{ funRut | json }}
+<!-- <p>agregar work !!</p> -->
+
+
+<div class="row">
+  <div class="card-header align-items-center border-0 mt-4">
+    <h3 class="card-title align-items-start flex-column">
+      <span class="fw-bolder text-dark">Formulario ingreso nuevo descuento</span>
+      <span class="text-muted mt-1 fw-bold fs-7">Se agregara un nuevo descuento al funcionario(a): </span>
+      <span class="text-muted mt-1 fw-bold fs-7">{{funcionario.nombre1}} {{funcionario.paterno}}
+        {{funcionario.materno}}</span>
+    </h3>
+  </div>
+  <div class="card-body pt-3">
+    <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
+
+      <div class="col">
+        <!--begin::Input group-->
+        <div class="fv-row mb-7 fv-plugins-icon-container">
+          <!--begin::Label-->
+          <label class="fs-6 fw-bold form-label mt-3">
+            <span class="required">Fecha desde</span>
+            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="Indica desde cuando se cursará el descuento"></i>
+          </label>
+          <!--end::Label-->
+          <!--begin::Input-->
+          <input type="date" class="form-control form-control-solid" name="fechaHasta" value="">
+          <!--end::Input-->
+          <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <!--end::Input group-->
+
+      </div>
+      <div class="col">
+        <!--begin::Input group-->
+        <div class="fv-row mb-7 fv-plugins-icon-container">
+          <!--begin::Label-->
+          <label class="fs-6 fw-bold form-label mt-3">
+            <span class="required">Fecha Hasta</span>
+            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="Indica hasta cuando se cursará el descuento"></i>
+          </label>
+          <!--end::Label-->
+          <!--begin::Input-->
+          <input type="date" class="form-control form-control-solid" name="fechaDesde" value="">
+          <!--end::Input-->
+          <div class="fv-plugins-message-container invalid-feedback"></div>
+        </div>
+        <!--end::Input group-->
+      </div>
+
+
+
+    </div>
+
+    <!-- <div class="fv-row mb-7 fv-plugins-icon-container">
+      <label class="fs-6 fw-bold form-label mt-3">
+        <span class="required">Origen</span>
+      </label>
+
+      <select id="tipoDescuento" class="form-select form-select-solid" name="tipoDescuento">
+        <option value="">&nbsp;</option>
+      </select>
+    </div> -->
+
+    <div class="fv-row mb-7 fv-plugins-icon-container">
+      <label class="fs-6 fw-bold form-label mt-3">
+        <span class="required">Tipo descuento</span>
+      </label>
+      <!--end::Label-->
+      <select id="tipoDescuento" class="form-select form-select-solid" name="tipoDescuento">
+        <option value="">&nbsp;</option>
+      </select>
+    </div>
+
+    <div class="fv-row mb-7 fv-plugins-icon-container">
+      <!--begin::Label-->
+      <label class="fs-6 fw-bold form-label mt-3">
+        <span class="required">Monto</span>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Enter the contact's name." aria-label="Enter the contact's name."></i>
+      </label>
+      <!--end::Label-->
+      <!--begin::Input-->
+      <input type="number"  class="form-control form-control-solid" name="monto" value="0">
+      <!--end::Input-->
+
+    </div>
+
+    <div class="fv-row mb-7 fv-plugins-icon-container">
+      <label class="fs-6 fw-bold form-label mt-3">
+        <span class="required">Archivo</span>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Enter the contact's name." aria-label="Enter the contact's name."></i>
+      </label>
+      <div class="input-group mb-3">
+        <input type="file" class="form-control" id="inputGroupFile02">
+        <label class="input-group-text" for="inputGroupFile02">Buscar</label>
+      </div>
+
+
+    </div>
+
+    <div class="fv-row mb-7">
+      <!--begin::Label-->
+      <label class="fs-6 fw-bold form-label mt-3">
+        <span>Observaciones</span>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Enter any additional notes about the contact (optional)." aria-label="Enter any additional notes about the contact (optional)."></i>
+      </label>
+      <!--end::Label-->
+      <!--begin::Input-->
+      <textarea class="form-control form-control-solid" name="notes"></textarea>
+      <!--end::Input-->
+    </div>
+    <div class="fv-row mb-7">
+      <button type="button" class="btn btn-primary">Agregar descuento</button>
+    </div>
+  </div>
+
+</div>
+
+{{ funcionario | json }}

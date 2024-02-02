@@ -8,6 +8,8 @@ import { List } from '../buscador/interfaces/buscador-interfaces';
   ]
 })
 export class BuscadorComponent implements OnInit {
+  listadoFuncionarios : List[] = []
+  componentChild : boolean = false
 
   constructor() { }
 
@@ -15,14 +17,23 @@ export class BuscadorComponent implements OnInit {
 
   }
 
-  @Output() funcionarioRutbuscador: EventEmitter<List> = new EventEmitter<List>
+  @Output() funcionariobuscador: EventEmitter<List> = new EventEmitter<List>
 
   funcionario_seleccionado: List
   seleccionadoRut(event: List){
     if(event){
       this.funcionario_seleccionado = event
-      this.funcionarioRutbuscador.emit(event)
+      this.funcionariobuscador.emit(event)
+      this.componentChild = false
       //this.componenteHijo = false
       }
   }
+
+  recibirListado(event: List[]){
+    this.listadoFuncionarios = event
+    //console.log('Buscador listado : '+this.listadoFuncionarios);
+    this.componentChild = true
+  }
+
+
 }

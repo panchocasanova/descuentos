@@ -40,11 +40,13 @@ export class BuscarApellidoComponent implements OnInit {
 
 
 
-  buscaralgo() {
+  buscarnombres() {
     this.isLoading3liq = true
     this.BuscadorService.getFuncionarios(this.formbusqueda)?.subscribe({
       next: (value) => {
         if (value.status = 200) {
+          //console.log(value.lists);
+
           this.funcionarios.emit(value.lists)
           this.isLoading3liq = false
           this.closeModal()

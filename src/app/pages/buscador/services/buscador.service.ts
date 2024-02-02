@@ -18,7 +18,7 @@ export class buscadorService {
   constructor(private http: HttpClient) { }
 
   getFuncionarios(form?:FormGroup): Observable<Funcionarios> | undefined{
-    const url = `${this.apiRemune}/listar_funcionarios`;
+    const url = `${this.apiRemune}/buscar_funcionarios`;
     const headers = new HttpHeaders()
     .set('Accept', 'application/json')
     .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
@@ -139,7 +139,7 @@ export class buscadorService {
   }
 
   buscarFuncionario(form?:FormGroup): Observable<any>{
-    const url = `${this.apiRemune}/listar_funcionario`;
+    const url = `${this.apiRemune}/buscar_funcionario`;
     const headers = new HttpHeaders()
       .set('Accept', 'application/json')
       .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())

@@ -13,7 +13,7 @@ export class PrincipalComponent {
   @Output() ejemplo: EventEmitter<string> = new EventEmitter<string>
 
   funcionario_seleccionado: List
-  seleccionadoRut(event: List){
+  seleccionado(event: List){
     if(event){
       this.funcionario_seleccionado = event
       this.principalRut.emit(event)

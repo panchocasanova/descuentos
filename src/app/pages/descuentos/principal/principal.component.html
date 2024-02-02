@@ -1,11 +1,11 @@
 <p>principal works!</p>
 
 <div class="row g-5 g-xl-2">
-  <app-buscador  class="card card-xl-stretch mb-xl-12" (funcionarioRutbuscador)=seleccionadoRut($event)></app-buscador>
+  <app-buscador  class="card card-xl-stretch mb-xl-12" (funcionariobuscador)=seleccionado($event)></app-buscador>
 </div>
 
-<div class="row g-5 g-xl-2">
-  <app-agregar class="card card-xl-stretch mb-xl-12" [funRut]="funcionario_seleccionado"></app-agregar>
+<div class="row g-5 g-xl-2" *ngIf="funcionario_seleccionado">
+  <app-agregar class="card card-xl-stretch mb-xl-12" [funcionario]="funcionario_seleccionado"></app-agregar>
 </div>
 
 

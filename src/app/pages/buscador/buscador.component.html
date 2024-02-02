@@ -2,5 +2,11 @@
 
 <div class="row">
 <app-buscar-rut (funcionarioRut) = seleccionadoRut($event) class="col"></app-buscar-rut>
-<app-buscar-apellido class="col"></app-buscar-apellido>
+<app-buscar-apellido (funcionarios) = recibirListado($event) class="col"></app-buscar-apellido>
+</div>
+
+<div class="col-xl-12" *ngIf="componentChild">
+  <app-listado-funcionarios class="card card-xl-stretch mb-xl-8"
+  *ngIf="listadoFuncionarios.length > 0"
+  [listadoPadre] = "listadoFuncionarios" (funcionarioSeleccionado) = seleccionadoRut($event)></app-listado-funcionarios>
 </div>
