@@ -1,4 +1,6 @@
 <p>buscador work!!</p>
 
-<app-buscar-apellido></app-buscar-apellido>
-<app-buscar-rut (funcionarioRut) = seleccionadoRut($event)></app-buscar-rut>
+<div class="row">
+<app-buscar-rut (funcionarioRut) = seleccionadoRut($event) class="col"></app-buscar-rut>
+<app-buscar-apellido class="col"></app-buscar-apellido>
+</div>

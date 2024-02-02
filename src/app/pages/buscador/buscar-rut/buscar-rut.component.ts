@@ -14,7 +14,7 @@ import { List } from '../interfaces/buscador-interfaces'
 })
 export class BuscarRutComponent {
   formrut: FormGroup = this.fb.group({
-    rut: ['', [Validators.required, Validators.pattern("^[0-9]*$")]]
+    rut: ['', [Validators.required, Validators.pattern("^[0-9K-k]*$")]]
   })
   isLoadingAbrirBuscador: boolean = false;
   @Input() name: string = 'Abrir Buscador'
@@ -33,29 +33,24 @@ export class BuscarRutComponent {
     buscarrut(){
       this.buscadorService.buscarFuncionario(this.formrut).subscribe({
         next: (value) => {
-          //console.log(value.lists[0]);
-
           this.closeModal()
           this.funcionarioRut.emit(value.lists[0])
           this.formrut.reset()
         },
         error: (err) =>{
-          console.log(err);
-
+          console.log(err.error);
           if(err.error.number === 1){
             Swal.fire({
-              icon: 'info',
-              title: 'Rut no encontrado',
+              icon: 'error',
+              title: 'Problemas con el rut ingresado',
               text: err.error.msg,
               allowOutsideClick: false
             })
             this.formrut.reset()
             this.closeModal()
           }
-
         }
       })
-
     }
 
     closeModal() {

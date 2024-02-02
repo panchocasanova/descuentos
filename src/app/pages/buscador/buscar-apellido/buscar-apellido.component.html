@@ -1,1 +1,108 @@
 <p>buscar-apellido works!</p>
+<!-- <p>componente hijo - buscador works!</p> -->
+
+<div class="card-header align-items-center border-0 mt-4">
+  <h3 class="card-title align-items-start flex-column">
+    <span class="fw-bolder text-dark">Buscar Funcionario por apellidos</span>
+    <span class="text-muted mt-1 fw-bold fs-7">puede buscar un funcionario por apellidos.</span>
+  </h3>
+</div>
+
+<!-- begin::Body -->
+<div class="card-body pt-3">
+  <button type="submit" (click)="openModal(modal3liquidacion)" class="btn btn-primary">
+    <ng-container *ngIf="!isLoadingAbrirBuscador">{{name}}</ng-container>
+    <ng-container *ngIf="isLoadingAbrirBuscador">
+      <span clas="indicator-progress" [style.display]="'block'">
+        Por favor espere...{{ " " }}
+        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+      </span>
+    </ng-container>
+  </button>
+
+</div>
+<!-- end::Body -->
+
+
+
+<ng-template #modal3liquidacion let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title">
+      Busqueda Funcionario <br />
+      <span class="text-muted mt-2 fw-bold fs-7">Puede buscar a un funcionario solo con el apellido paterno</span>
+    </h4>
+
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+  </div>
+  <div class="modal-body">
+    <!---Formulario-->
+    <form [formGroup]="formbusqueda">
+      <div class="row">
+        <div class="col">
+          <input type="text"
+          id="paterno"
+          class="form-control"
+          placeholder="Apellido paterno"
+          aria-label="First name"
+          [ngClass]="{'is-valid': formbusqueda.controls['paterno'].errors?.minlength === null && formbusqueda.controls['paterno'].value !== '',
+        'is-invalid': formbusqueda.controls['paterno'].errors}"
+          formControlName="paterno"
+          minlength="4"
+          ngbAutofocus>
+          <div class="valid-feedback">
+            <!-- ya puedes realizar una busqueda.. -->
+          </div>
+          <div *ngIf="formbusqueda.valid === false" class="invalid-feedback" >
+            <div *ngIf="formbusqueda.controls['paterno'].errors?.required">
+              <small>Apellido es obligatorio</small>
+            </div>
+            <div *ngIf="formbusqueda.controls['paterno'].errors?.minlength">
+              <small>Apellido debe tener minimo 4 caracteres. </small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <input type="text"
+          class="form-control"
+          placeholder="Apellido materno"
+          [ngClass]="{'is-valid': formbusqueda.controls['materno'].errors?.minlength === null && formbusqueda.controls['materno'].value !== '',
+        'is-invalid': formbusqueda.controls['materno'].errors}"
+          aria-label="Last name"
+          formControlName="materno">
+          <div class="valid-feedback">
+            <!-- ya puedes realizar una busqueda.. -->
+          </div>
+          <div *ngIf="formbusqueda.valid === false" class="invalid-feedback" >
+            <div *ngIf="formbusqueda.controls['materno'].errors?.minlength">
+              <small>Apellido debe tener minimo 4 caracteres. </small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <!-- {{ funcionarios | json }} -->
+
+    <!-- {{formbusqueda.controls['paterno'].errors?.minlength | json}}
+    {{ formbusqueda.controls['paterno'].errors?.minlength.actualLength}} -->
+
+    <!---fin Formulario-->
+  </div>
+  <div class="modal-footer">
+    <button type="submit" (click)="buscaralgo()" class="btn btn-primary col-md-4"
+      [disabled]="(formbusqueda.controls['paterno'].value === '' || formbusqueda.controls['paterno'].value.length < 4) && (formbusqueda.controls['materno'].value === '' || formbusqueda.controls['materno'].value.length < 4)">
+      <ng-container *ngIf="!isLoading3liq">Buscar</ng-container>
+      <ng-container *ngIf="isLoading3liq">
+        <span clas="indicator-progress" [style.display]="'block'">
+          Por favor espere...{{ " " }}
+          <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+        </span>
+      </ng-container>
+    </button>
+    <button type="button" class="btn btn-danger" (click)="closeModal()">
+      Cerrar
+    </button>
+  </div>
+</ng-template>
+
+
