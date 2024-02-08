@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Funcionarios, Mes } from '../interfaces/buscador-interfaces';
+import { Funcionarios, Mes, descuento } from '../interfaces/buscador-interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -147,4 +147,81 @@ export class buscadorService {
     .append('rut', form?.value.rut)
     return this.http.post<any>(url, "", { headers, params})
   }
+
+ /*  listadoDescuentos(): Observable<descuento>{
+    const url = `${this.apiRemune}/descuentos_habilitados`;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
+      return this.infoUsuario().pipe(
+        switchMap((response: any) => {
+          //console.log(response.autorizado[0]);
+          const rut = response.autorizado[0].id_rut;
+          const unidad = response.autorizado[0].dt_repartition
+          const params = new HttpParams()
+            .append('rut', rut)
+            .append('unidad', unidad)
+          //const body = { rut: rut, sitio: this.sitio };
+          return this.http.post<descuento>(url, "", { headers, params });
+
+        })
+      );
+  }
+ */
+
+  listadoDescuentos(): Observable<descuento> {
+    const url = `${this.apiRemune}/descuentos_habilitados`;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', 'Bearer ' + this.getTokenRemuneLS());
+
+    return this.infoUsuario().pipe(
+      switchMap((response: any) => {
+        const rut = response.autorizado[0].id_rut;
+        const unidad = response.autorizado[0].dt_repartition;
+        const params = new HttpParams()
+          .append('rut', rut)
+          .append('unidad', unidad);
+
+          return this.http.post<descuento>(url, "", { headers, params }).pipe(
+            //tap((data) => console.log('Respuesta HTTP:', data)),
+            catchError((error) => {
+              console.error('Error en la solicitud HTTP:', error);
+              return [];
+            })
+          );
+      })
+    );
+  }
+
+  public cargarIngresoDescuento(form: FormGroup){
+    const url = `${this.apiRemune}/cargar_ingreso`;
+    const headers = new HttpHeaders()
+    .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
+    console.log(form);
+
+    /* const params = new HttpParams()
+    .append('fechaDesde', form.value.fechaDesde)
+    .append('fechaHasta', form.value.fechaHasta)
+    .append('descuento', form.value.descuento)
+    .append('monto', form.value.monto)
+    .append('observaciones', form.value.observaciones)
+    .append('archivoDescuento', form.value.archivoDescuento, form.value.archivoDescuento.name) */
+    let formParams = new FormData();
+    formParams.append('fechaDesde', form.value.fechaDesde)
+    formParams.append('fechaHasta', form.value.fechaHasta)
+    formParams.append('cod_descuento', form.value.cod_descuento)
+    formParams.append('monto', form.value.monto)
+    formParams.append('observaciones', form.value.observaciones)
+    if(form.value.archivoDescuento){
+      formParams.append('archivoDescuento', form.value.archivoDescuento, form.value.archivoDescuento.name)
+    }
+    formParams.append('rutSeleccionado', form.value.rutSeleccionado)
+    formParams.append('rutFuncionario', form.value.rutFuncionario)
+
+    return this.http.post(url, formParams, {headers})
+
+    //let formParams = new FormData();
+  }
+
 }

@@ -7,6 +7,7 @@ import { PrincipalComponent } from './principal/principal.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { BuscadorModule } from '../buscador/buscador.module';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BuscadorModule } from '../buscador/buscador.module';
     CommonModule,
     DescuentosRoutingModule,
     ReactiveFormsModule,
-    BuscadorModule
+    BuscadorModule,
+    NgbTooltipModule
   ]
 })
 export class DescuentosModule { }

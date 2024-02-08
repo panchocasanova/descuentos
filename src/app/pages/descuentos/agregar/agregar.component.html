@@ -5,12 +5,13 @@
   <div class="card-header align-items-center border-0 mt-4">
     <h3 class="card-title align-items-start flex-column">
       <span class="fw-bolder text-dark">Formulario ingreso nuevo descuento</span>
-      <span class="text-muted mt-1 fw-bold fs-7">Se agregara un nuevo descuento al funcionario(a): </span>
-      <span class="text-muted mt-1 fw-bold fs-7">{{funcionario.nombre1}} {{funcionario.paterno}}
-        {{funcionario.materno}}</span>
+      <span class="text-muted mt-1 fw-bold fs-7">Se agregara un nuevo descuento al funcionario(a): <span class="mt-1 fw-bold fs-4">{{funcionario.nombre1}} {{funcionario.paterno}}
+        {{funcionario.materno}}, RUT: {{funcionario.rut}}-{{funcionario.digito}}</span></span>
+
     </h3>
   </div>
   <div class="card-body pt-3">
+    <form [formGroup]="formIngresoDescuento">
     <div class="row row-cols-1 row-cols-sm-2 rol-cols-md-1 row-cols-lg-2">
 
       <div class="col">
@@ -19,17 +20,48 @@
           <!--begin::Label-->
           <label class="fs-6 fw-bold form-label mt-3">
             <span class="required">Fecha desde</span>
-            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Indica desde cuando se cursará el descuento"></i>
+            <i class="fas fa-exclamation-circle ms-1 fs-7" placement="top" ngbTooltip="Debe coincidir con la fecha desde cuando se realizara el descuento."></i>
           </label>
           <!--end::Label-->
           <!--begin::Input-->
-          <input type="date" class="form-control form-control-solid" name="fechaHasta" value="">
+          <input type="month" [min]="minDate" class="form-control form-control-solid" id="fechaDesde" formControlName="fechaDesde" value="">
           <!--end::Input-->
-          <div class="fv-plugins-message-container invalid-feedback"></div>
+
+         <!--  <div *ngIf="formIngresoDescuento.valid ===false" class="fv-plugins-message-container invalid-feedback">
+            <div *ngIf="formIngresoDescuento.controls['fechaDesde'].errors?.required">
+              <small>Fecha Desde es obligatorio.</small>
+              <p class="error-message" *ngIf="formIngresoDescuento.controls.fechaDesde.errors?.fechas">
+                La fecha de inicio debe ser menor que la fecha de fin.
+              </p>
+            </div>
+          </div>
+        </div> -->
+        <div class="fv-plugins-message-container invalid-feedback">
+        <div *ngIf="formIngresoDescuento.hasError('fechas')">
+          <small>La fecha desde debe ser menor que la fecha hasta.</small>
         </div>
+        <div *ngIf="formIngresoDescuento.controls['fechaDesde'].invalid" >
+          <small *ngIf="formIngresoDescuento.controls['fechaDesde'].errors?.required">
+            Fecha Desde es obligatorio.
+          </small>
+        </div>
+        </div>
+
+
+
+        <!-- <div *ngIf="formIngresoDescuento.controls['fechaDesde'].invalid" class="fv-plugins-message-container invalid-feedback">
+          <div *ngIf="formIngresoDescuento.controls['fechaDesde'].errors?.required">
+            <small>Fecha Desde es obligatorio.</small>
+          </div>
+          <div *ngIf="formIngresoDescuento.errors?.fechas">
+            <p class="error-message">
+              La fecha de inicio debe ser menor que la fecha de fin.
+            </p>
+          </div>
+        </div>-->
         <!--end::Input group-->
 
+        </div>
       </div>
       <div class="col">
         <!--begin::Input group-->
@@ -37,14 +69,22 @@
           <!--begin::Label-->
           <label class="fs-6 fw-bold form-label mt-3">
             <span class="required">Fecha Hasta</span>
-            <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Indica hasta cuando se cursará el descuento"></i>
+            <i class="fas fa-exclamation-circle ms-1 fs-7" placement="top" ngbTooltip="indica la fecha de termino del descuento. Esto se realizara de forma automatica en los sistemas de remuneraciones."></i>
           </label>
           <!--end::Label-->
           <!--begin::Input-->
-          <input type="date" class="form-control form-control-solid" name="fechaDesde" value="">
+          <input type="month"[min]="minDate" class="form-control form-control-solid" id="fechaHasta" formControlName="fechaHasta" value="">
           <!--end::Input-->
-          <div class="fv-plugins-message-container invalid-feedback"></div>
+          <div class="fv-plugins-message-container invalid-feedback">
+            <div *ngIf="formIngresoDescuento.hasError('fechas')">
+              <small>La fecha hasta debe ser mayor que la fecha desde.</small>
+            </div>
+            <div *ngIf="formIngresoDescuento.controls['fechaHasta'].invalid" >
+              <small *ngIf="formIngresoDescuento.controls['fechaHasta'].errors?.required">
+                Fecha Desde es obligatorio.
+              </small>
+            </div>
+          </div>
         </div>
         <!--end::Input group-->
       </div>
@@ -63,36 +103,50 @@
       </select>
     </div> -->
 
+
+
     <div class="fv-row mb-7 fv-plugins-icon-container">
       <label class="fs-6 fw-bold form-label mt-3">
         <span class="required">Tipo descuento</span>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" placement="top" ngbTooltip="Debe seleccionar el descuento que le asiganara al funcionario. En caso de que no aparezca el descuento que necesita en el listado, comuniquese con la oficina de descuentos."></i>
       </label>
       <!--end::Label-->
-      <select id="tipoDescuento" class="form-select form-select-solid" name="tipoDescuento">
-        <option value="">&nbsp;</option>
-      </select>
+      <div *ngIf="descuentos$ | async as descuentos" class="border rounded">
+        <select id="kt_ecommerce_select2_country" class="form-select form-select-solid lh-1 py-3" name="tipoDescuento" formControlName="cod_descuento">
+          <option *ngFor="let item of descuentos.listado" [value]="item.codigo">
+            {{item.descripcion}}
+          </option>
+        </select>
+
+      </div>
+
     </div>
 
     <div class="fv-row mb-7 fv-plugins-icon-container">
       <!--begin::Label-->
       <label class="fs-6 fw-bold form-label mt-3">
         <span class="required">Monto</span>
-        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Enter the contact's name." aria-label="Enter the contact's name."></i>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" placement="top" ngbTooltip="El monto maximo permitido para un descuento es de $999.999"></i>
       </label>
       <!--end::Label-->
       <!--begin::Input-->
-      <input type="number"  class="form-control form-control-solid" name="monto" value="0">
+      <input type="number"  class="form-control form-control-solid" name="monto" value="0" formControlName="monto">
+      <div class="fv-plugins-message-container invalid-feedback">
+        <div *ngIf="formIngresoDescuento.controls['monto'].errors?.max">
+          <small>El monto maximo para un descuento es de $999.999 CLP.</small>
+        </div>
+      </div>
       <!--end::Input-->
 
     </div>
 
     <div class="fv-row mb-7 fv-plugins-icon-container">
       <label class="fs-6 fw-bold form-label mt-3">
-        <span class="required">Archivo</span>
-        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Enter the contact's name." aria-label="Enter the contact's name."></i>
+        <span class="">Archivo</span>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" placement="top" ngbTooltip="Este campo es opcional, sin embargo, respalda el descuento que se esta cursando."></i>
       </label>
       <div class="input-group mb-3">
-        <input type="file" class="form-control" id="inputGroupFile02">
+        <input #archivoup type="file" class="form-control" id="inputGroupFile02" (change)="onChange($event)" accept="application/pdf">
         <label class="input-group-text" for="inputGroupFile02">Buscar</label>
       </div>
 
@@ -103,16 +157,19 @@
       <!--begin::Label-->
       <label class="fs-6 fw-bold form-label mt-3">
         <span>Observaciones</span>
-        <i class="fas fa-exclamation-circle ms-1 fs-7" data-bs-toggle="tooltip" title="" data-bs-original-title="Enter any additional notes about the contact (optional)." aria-label="Enter any additional notes about the contact (optional)."></i>
+        <i class="fas fa-exclamation-circle ms-1 fs-7" placement="top" ngbTooltip="Este campo es opcional, en la cual puede agregar un comentario adicional al descuento que esta cursando. (maximo 1000 caracteres.)"></i>
       </label>
       <!--end::Label-->
       <!--begin::Input-->
-      <textarea class="form-control form-control-solid" name="notes"></textarea>
+      <textarea #obs rows="5" class="form-control form-control-solid" name="notes" formControlName="observaciones" (keyup)="caracteres($event)"
+      ></textarea>
       <!--end::Input-->
+      <small>Total caracteres: {{contador}}</small>
     </div>
     <div class="fv-row mb-7">
-      <button type="button" class="btn btn-primary">Agregar descuento</button>
+      <button type="button" class="btn btn-primary" [disabled]="formIngresoDescuento.invalid" (click)="procesarIngreso()">Agregar descuento</button>
     </div>
+    </form>
   </div>
 
 </div>

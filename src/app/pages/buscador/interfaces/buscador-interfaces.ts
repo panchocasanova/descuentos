@@ -28,3 +28,17 @@ export interface Mes {
 export interface AnnosResponse {
   id: number;
 }
+
+export interface descuento {
+  description: string;
+  listado:     listDescuento[];
+  status:      number;
+}
+
+export interface listDescuento {
+  codigo:     string;
+  descripcion: string;
+  letra:      string;
+  ucf:        string;
+  unidad:     string;
+}
