@@ -32,7 +32,10 @@ export class AgregarComponent  implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
+    /*
+    // solo para completar el comentario para pruebas.
     this.obs.nativeElement.value = this.textoPredeterminado;
+    */
   }
 
 
@@ -130,40 +133,61 @@ export class AgregarComponent  implements OnInit, AfterViewInit{
 
    procesarIngreso(){
     //console.log(this.formIngresoDescuento);
+    console.log(this.funcionario);
 
-    if(this.funcionario.rut){
-      console.log("rutSeleccionado: ", this.funcionario.rut);
-      this.formIngresoDescuento.addControl('rutSeleccionado', this.fb.control(this.funcionario.rut))
-    }else{
-      Swal.fire({
-        icon:"error",
-        title:"Error 001",
-        text:"No es posible realizar la solicitud"
-      })
-      this.formIngresoDescuento.removeControl('rutSeleccionado')
-      this.formIngresoDescuento.removeControl('archivoDescuento')
-      this.formIngresoDescuento.reset()
-      return false
-    }
-    let usuario: any
-    this.buscadorService.usuario().pipe(
-      tap( n =>{
-        console.log("Valor n: ", n)
-        usuario = n
-        //console.log(usuario.autorizado[0].id_rut);
-        this.formIngresoDescuento.addControl('rutFuncionario', this.fb.control(usuario.autorizado[0].id_rut))
-        this.buscadorService.cargarIngresoDescuento(this.formIngresoDescuento).subscribe({
-          next(value) {
-            console.log(value);
+    Swal.fire({
+      title: "¿Esta seguro que desea agregar este descuento?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Guardar",
+      denyButtonText: `Salir`
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        if(this.funcionario.rut){
+          //console.log("rutSeleccionado: ", this.funcionario.rut);
+          this.formIngresoDescuento.addControl('rutSeleccionado', this.fb.control(this.funcionario.rut))
+        }else{
+          Swal.fire({
+            icon:"error",
+            title:"Error 001",
+            text:"No es posible realizar la solicitud"
+          })
+          this.formIngresoDescuento.removeControl('rutSeleccionado')
+          this.formIngresoDescuento.removeControl('archivoDescuento')
+          this.formIngresoDescuento.reset()
+          return false
+        }
+        let usuario: any
+        this.buscadorService.usuario().pipe(
+          tap( n =>{
+            //console.log("Valor n: ", n)
+            usuario = n
+            //console.log(usuario.autorizado[0].id_rut);
+            this.formIngresoDescuento.addControl('rutFuncionario', this.fb.control(usuario.autorizado[0].id_rut))
+            this.buscadorService.cargarIngresoDescuento(this.formIngresoDescuento).subscribe({
+              next(value) {
+                console.log(value);
+                Swal.fire("Ingreso guardado exitosamente!","","success")
 
-          },
-          error(err) {
-            console.log(err);
+              },
+              error(err) {
+                Swal.fire({
+                  icon:"error",
+                  title:"Problema al ingresar",
+                  text: err
+                })
 
-          },
-        })
-      })
-    ).subscribe();
+              },
+            })
+          })
+        ).subscribe();
+      } else if (result.isDenied) {
+        Swal.fire("El ingreso no será guardado", "", "info");
+      }
+    });
+
+
   }
 }
 
