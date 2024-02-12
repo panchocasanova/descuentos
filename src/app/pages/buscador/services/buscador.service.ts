@@ -198,7 +198,7 @@ export class buscadorService {
     const url = `${this.apiRemune}/cargar_ingreso`;
     const headers = new HttpHeaders()
     .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
-    console.log(form);
+    //console.log(form);
 
     /* const params = new HttpParams()
     .append('fechaDesde', form.value.fechaDesde)

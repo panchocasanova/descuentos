@@ -130,7 +130,7 @@
       </label>
       <!--end::Label-->
       <!--begin::Input-->
-      <input type="number"  class="form-control form-control-solid" name="monto" value="0" formControlName="monto">
+      <input type="number"  class="form-control form-control-solid" name="monto" formControlName="monto" >
       <div class="fv-plugins-message-container invalid-feedback">
         <div *ngIf="formIngresoDescuento.controls['monto'].errors?.max">
           <small>El monto maximo para un descuento es de $999.999 CLP.</small>

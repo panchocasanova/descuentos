@@ -133,8 +133,9 @@ export class AgregarComponent  implements OnInit, AfterViewInit{
 
    procesarIngreso(){
     //console.log(this.formIngresoDescuento);
-    console.log(this.funcionario);
+    //console.log(this.funcionario);
 
+    let self = this
     Swal.fire({
       title: "¿Esta seguro que desea agregar este descuento?",
       showDenyButton: true,
@@ -144,32 +145,32 @@ export class AgregarComponent  implements OnInit, AfterViewInit{
     }).then((result) => {
       /* Read more about isConfirmed, isDenied below */
       if (result.isConfirmed) {
-        if(this.funcionario.rut){
+        if(self.funcionario.rut){
           //console.log("rutSeleccionado: ", this.funcionario.rut);
-          this.formIngresoDescuento.addControl('rutSeleccionado', this.fb.control(this.funcionario.rut))
+          self.formIngresoDescuento.addControl('rutSeleccionado', self.fb.control(self.funcionario.rut))
         }else{
           Swal.fire({
             icon:"error",
             title:"Error 001",
             text:"No es posible realizar la solicitud"
           })
-          this.formIngresoDescuento.removeControl('rutSeleccionado')
-          this.formIngresoDescuento.removeControl('archivoDescuento')
-          this.formIngresoDescuento.reset()
+          self.formIngresoDescuento.removeControl('rutSeleccionado')
+          self.formIngresoDescuento.removeControl('archivoDescuento')
+          self.formIngresoDescuento.reset()
           return false
         }
         let usuario: any
-        this.buscadorService.usuario().pipe(
+        self.buscadorService.usuario().pipe(
           tap( n =>{
             //console.log("Valor n: ", n)
             usuario = n
             //console.log(usuario.autorizado[0].id_rut);
-            this.formIngresoDescuento.addControl('rutFuncionario', this.fb.control(usuario.autorizado[0].id_rut))
-            this.buscadorService.cargarIngresoDescuento(this.formIngresoDescuento).subscribe({
+            self.formIngresoDescuento.addControl('rutFuncionario', self.fb.control(usuario.autorizado[0].id_rut))
+            self.buscadorService.cargarIngresoDescuento(self.formIngresoDescuento).subscribe({
               next(value) {
-                console.log(value);
+                //console.log(value);
                 Swal.fire("Ingreso guardado exitosamente!","","success")
-
+                self.resetForm()
               },
               error(err) {
                 Swal.fire({
@@ -182,6 +183,7 @@ export class AgregarComponent  implements OnInit, AfterViewInit{
             })
           })
         ).subscribe();
+        //this.resetForm()
       } else if (result.isDenied) {
         Swal.fire("El ingreso no será guardado", "", "info");
       }
@@ -189,6 +191,15 @@ export class AgregarComponent  implements OnInit, AfterViewInit{
 
 
   }
+
+  resetForm(){
+    this.formIngresoDescuento.removeControl('rutSeleccionado')
+    this.formIngresoDescuento.removeControl('rutFuncionario')
+    this.formIngresoDescuento.removeControl('archivoDescuento')
+    this.formIngresoDescuento.reset()
+  }
+
+
 }
 
     //this.formIngresoDescuento.addControl('rutFuncionario', this.fb.group(this.funcionario.rut))
