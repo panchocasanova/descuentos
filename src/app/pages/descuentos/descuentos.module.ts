@@ -8,12 +8,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { BuscadorModule } from '../buscador/buscador.module';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { ValidarComponent } from './validar/validar.component';
 
 
 @NgModule({
   declarations: [
     AgregarComponent,
-    PrincipalComponent
+    PrincipalComponent,
+    ValidarComponent
   ],
   imports: [
     CommonModule,
