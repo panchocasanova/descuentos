@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { perfilUsuario } from '../interfaces/general';
 
@@ -12,6 +12,9 @@ export class GeneralService {
   private tokenLocalStorageRemune = 'tokenRemune';
 
   constructor(private http: HttpClient) { }
+
+  public ru: string
+  subjectreparticion = new Subject<string>();
 
   private getTokenRemuneLS() {
     try {
@@ -37,5 +40,12 @@ export class GeneralService {
   }
   usuario(){
     return this.infoUsuario()
+  }
+
+  reparticionUsuario(){
+    this.usuario().subscribe( items =>{
+      this.subjectreparticion.next(items.autorizado[0].dt_repartition)
+    })
+    return this.subjectreparticion.asObservable()
   }
 }

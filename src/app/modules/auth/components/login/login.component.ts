@@ -88,8 +88,8 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (data) => {
         //console.log('submitlogin',data)
         if(data === true){
-          let ip = document.location.hostname
-          this.AuthRemuneService.loginRemune(rut, ip).subscribe({
+          //let ip = document.location.hostname
+          this.AuthRemuneService.loginRemune(rut).subscribe({
             next: (data) => {
               //console.log('tokenRemune',data)
               this.router.navigate([this.returnUrl])

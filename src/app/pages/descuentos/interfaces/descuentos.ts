@@ -19,3 +19,21 @@ export interface List {
   rut:        string;
   sexo:       string;
 }
+
+export interface Ingreso {
+  desde:              string;
+  fechaIngreso:       string;
+  hasta:              string;
+  id:                 number;
+  idConcepto:         string;
+  idEstado:           number;
+  idOrigen:           number;
+  ipIngreso:          string;
+  monto:              number;
+  obs:                string;
+  reparticionIngreso: string;
+  rut:                string;
+  rutIngreso:         string;
+  ucfIngreso:         string;
+  url:                string;
+}

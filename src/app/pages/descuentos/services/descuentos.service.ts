@@ -44,4 +44,16 @@ export class DescuentosService {
   toggleVisibility() {
     this.isVisible.next(!this.isVisible.value);
   }
+
+  buscarIngresos(reparticion: string):Observable<any>{
+    //console.log(reparticion);
+
+    const url = `${this.apiRemune}/buscar_ingresados`;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
+    const params = new HttpParams()
+    .append('reparticion', reparticion)
+    return this.http.post<any>(url, "", { headers, params})
+  }
 }

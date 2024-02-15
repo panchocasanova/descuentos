@@ -19,7 +19,7 @@ export class AuthRemuneService {
   constructor(private http: HttpClient, private router: Router) { }
 
 
-  loginRemune(rut: string, ip: string){
+  loginRemune(rut: string){
     const url = `${this.apiRemune}/login`;
     //console.log(url);
 

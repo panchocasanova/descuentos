@@ -20,14 +20,9 @@ export class AsideMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.generalService.usuario().subscribe( data =>{
-      let objeto = data
-      console.log(objeto);
+
       this.perfil = data
-      console.log(this.perfil.perfil[0].id_option.replace(' ', ''));
-
-
-      //this.perfil = data
-      //console.log(this.perfil.perfil[0]);
+      //console.log(this.perfil.perfil[0].dt_function.replace(' ', ''));
 
     } )
   }
