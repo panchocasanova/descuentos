@@ -56,4 +56,16 @@ export class DescuentosService {
     .append('reparticion', reparticion)
     return this.http.post<any>(url, "", { headers, params})
   }
+
+
+  buscarDetalleIngreso(id: string){
+    const url = `${this.apiRemune}/buscar_detalle_ingreso`;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
+    const params = new HttpParams()
+    .append('id', id)
+    return this.http.post<any>(url, "", { headers, params})
+
+  }
 }

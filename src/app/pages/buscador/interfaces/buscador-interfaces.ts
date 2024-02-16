@@ -42,3 +42,25 @@ export interface listDescuento {
   ucf:        string;
   unidad:     string;
 }
+
+export interface detalleIngreso {
+  desde:              string;
+  fechaIngreso:       string;
+  hasta:              string;
+  id:                 number;
+  idConcepto:         string;
+  idEstado:           number;
+  idOrigen:           number;
+  ipIngreso:          string;
+  monto:              number;
+  nombreConcepto:     string;
+  nombreFull:         string;
+  nombreIngreso:      string;
+  obs:                string;
+  reparticionIngreso: string;
+  rut:                string;
+  rutIngreso:         string;
+  ucfIngreso:         string;
+  url:                string;
+}
+

@@ -1,19 +1,15 @@
-<p>validar works!</p>
-
-
-
-
+<!-- <p>validar works!</p> -->
 <div class="row card card-xl-stretch mb-xl-12">
   <div class="card-header align-items-center border-0 mt-4">
     <h3 class="card-title align-items-start flex-column">
-      <span class="fw-bolder text-dark">Formulario ingreso nuevo descuento</span>
-      <span class="text-muted mt-1 fw-bold fs-7">Se agregara un nuevo descuento al funcionario(a):</span>
+      <span class="fw-bolder text-dark">Listado ingresos no validados</span>
+      <span class="text-muted mt-1 fw-bold fs-7">Puede seleccionar uno o mas Ingresos para su validación.</span>
 
     </h3>
   </div>
   <div class="card-body pt-3">
-    {{ingresos | json}}
-
+   <!--  {{ingresos | json}} -->
+   <form [formGroup]="formValidacion" (ngSubmit)="submitFormValidacion()">
     <table class="table table-row-bordered table-row-gray-100 align-middle gs-0 gy-3">
       <thead>
         <tr class="fw-bolder text-muted">
@@ -30,10 +26,12 @@
             <th class="min-w-120px">Fecha desde</th>
             <th class="min-w-120px">Fecha hasta</th>
             <th class="min-w-120px">Fecha Ingreso</th>
-            <th class="min-w-120px">Rut Usuario</th>
+            <!-- <th class="min-w-120px">Rut Usuario</th>
             <th class="min-w-120px">IP Usuario</th>
             <th class="min-w-120px">Observaciones</th>
-            <th class="min-w-100px text-end">Archivo adjunto</th>
+            <th class="min-w-100px text-end">Archivo adjunto</th> -->
+            <th class="min-w-100px text-end">Detalles</th>
+
         </tr>
       </thead>
       <tbody>
@@ -41,15 +39,174 @@
           <td>
             <div class="form-check form-check-sm form-check-custom form-check-solid">
                 <input class="form-check-input widget-13-check" type="checkbox" value="{{item.id}}"
-                    (change)="onChangeList($event)" [(ngModel)]="item.id" [ngModelOptions]="{standalone: true}"/>
+                    (change)="onChangeList($event)" [(ngModel)]="item.checked" [ngModelOptions]="{standalone: true}"/>
             </div>
         </td>
           <td>{{item.id}}</td>
           <td>{{item.rut}}</td>
           <td>{{item.idConcepto}}</td>
           <td>{{item.monto}}</td>
+          <td>{{item.desde}}</td>
+          <td>{{item.hasta}}</td>
+          <td>{{item.fechaIngreso | date:'medium'}}</td>
+
+          <!-- <td>{{item.rutIngreso}}</td>
+          <td>{{item.ipIngreso}}</td>
+          <td>{{item.obs}}</td>
+          <td>{{item.url}}</td> -->
+          <td class="float-end"><button class="btn btn-info btn-sm" value="{{item.id}}" (click)="verDetalle($event, modal1)">Ver</button></td>
         </tr>
       </tbody>
     </table>
+    <div class="grid gap-3">
+      <div class="p-2 g-col-12 d-grid gap-2 col-6 mx-auto">
+          <button type="submit" class="btn btn-info" [disabled]="formValidacion.invalid">Validar Solicitud(es) de ingreso de descuentos</button>
+      </div>
+      <div class="p-2 g-col-12 d-flex justify-content-center">
+         <!--  <pagination-controls (pageChange)="numerpage = $event" previousLabel="Anterior"
+              nextLabel="Siguiente" class="my-pagination">
+          </pagination-controls> -->
+      </div>
+  </div>
+  </form>
   </div>
 </div>
+
+<ng-template #modal1 let-modal [*ngIf="detalle"]>
+  <div *ngFor="let item of detalle">
+  <!-- {{detalle | json}} -->
+  <div class="modal-header">
+    <h4 class="modal-title">Detalle ingreso descuento</h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+  </div>
+  <div class="modal-body" >
+    <div class="border  p-7 rounded mb-7">
+      <!--begin::Info-->
+      <div class="d-flex flex-stack pb-3">
+        <!--begin::Info-->
+        <div class="d-flex">
+          <!--begin::Avatar-->
+          <div class="symbol symbol-circle symbol-45px">
+            <img src="assets/media/avatars/blank.png" alt="">
+          </div>
+          <!--end::Avatar-->
+          <!--begin::Details-->
+          <div class="ms-5" >
+            <!--begin::Name-->
+            <div class="d-flex align-items-center">
+              <a href="#" class="text-dark fw-bolder text-hover-primary fs-5 me-4">{{item.nombreFull}}</a>
+              <!--begin::Label-->
+              <span class="badge badge-light-success d-flex align-items-center fs-8 fw-bold">
+              <!--begin::Svg Icon | path: icons/duotune/general/gen029.svg-->
+              <span class="svg-icon svg-icon-8 svg-icon-success me-1">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M11.1359 4.48359C11.5216 3.82132 12.4784 3.82132 12.8641 4.48359L15.011 8.16962C15.1523 8.41222 15.3891 8.58425 15.6635 8.64367L19.8326 9.54646C20.5816 9.70867 20.8773 10.6186 20.3666 11.1901L17.5244 14.371C17.3374 14.5803 17.2469 14.8587 17.2752 15.138L17.7049 19.382C17.7821 20.1445 17.0081 20.7069 16.3067 20.3978L12.4032 18.6777C12.1463 18.5645 11.8537 18.5645 11.5968 18.6777L7.69326 20.3978C6.99192 20.7069 6.21789 20.1445 6.2951 19.382L6.7248 15.138C6.75308 14.8587 6.66264 14.5803 6.47558 14.371L3.63339 11.1901C3.12273 10.6186 3.41838 9.70867 4.16744 9.54646L8.3365 8.64367C8.61089 8.58425 8.84767 8.41222 8.98897 8.16962L11.1359 4.48359Z" fill="currentColor"></path>
+                </svg>
+              </span>
+              <!--end::Svg Icon-->Tipo fncionario</span>
+              <!--end::Label-->
+            </div>
+            <!--end::Name-->
+            <!--begin::Desc-->
+            <span class="text-muted fw-bold mb-3">{{item.rut}}</span>
+            <!--end::Desc-->
+          </div>
+          <!--end::Details-->
+        </div>
+        <!--end::Info-->
+        <!--begin::Stats-->
+        <div clas="d-flex">
+          <!--begin::Price-->
+          <div class="text-end pb-3">
+            <span class="text-muted fs-7">Monto descuento: </span>
+            <span class="text-dark fw-bolder fs-5">$ {{item.monto}}</span>
+
+          </div>
+          <!--end::Price-->
+        </div>
+        <!--end::Stats-->
+      </div>
+      <!--end::Info-->
+      <!--begin::Wrapper-->
+      <div class="p-0">
+        <!--begin::Section-->
+        <div class="d-flex flex-column">
+          <!--begin::Text-->
+          <p class="text-gray-700 fw-bold fs-6 mb-4">Observaciones:</p>
+          <!--end::Text-->
+          <!--begin::Tags-->
+          <div class="d-flex text-gray-400 fw-bold fs-7">
+            {{item.obs}}
+          </div>
+          <!--end::Tags-->
+        </div>
+        <!--end::Section-->
+        <!--begin::Footer-->
+        <div class="d-flex flex-column">
+          <!--begin::Separator-->
+          <div class="separator separator-dashed border-muted my-5"></div>
+          <!--end::Separator-->
+          <div class="mb-1 row">
+            <label for="staticid" class="col-sm-4 col-form-label">Id</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticid" value="{{item.id}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticDesde" class="col-sm-4 col-form-label">Fecha Desde</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticDesde" value="{{item.desde}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticHasta" class="col-sm-4 col-form-label">Fecha Hasta</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticHasta" value="{{item.hasta}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticConcepto" class="col-sm-4 col-form-label">Concepto</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticConcepto" value="{{item.nombreConcepto}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticIngreso" class="col-sm-4 col-form-label">Fecha Ingreso</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticIngreso" value="{{item.fechaIngreso}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticIP" class="col-sm-4 col-form-label">Direccion IP de ingreso</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticIP" value="{{item.ipIngreso}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticnomIngreso" class="col-sm-4 col-form-label">Nombre ingreso</label>
+            <div class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticnomIngreso" value="{{item.nombreIngreso}}">
+            </div>
+          </div>
+          <div class="mb-1 row">
+            <label for="staticArchivo" class="col-sm-4 col-form-label">Archivo Adjunto</label>
+            <div class="col-sm-8" *ngIf="item.url; else noarchivo">
+              <button class="btn btn-sm btn-primary btn-block">Ver archivo</button>
+            </div>
+            <ng-template #noarchivo class="col-sm-8">
+              <input type="text" readonly="" class="form-control-plaintext" id="staticarchivo" value="No existe archivo adjunto">
+            </ng-template>
+          </div>
+        </div>
+        <!--end::Footer-->
+      </div>
+      <!--end::Wrapper-->
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+			<button type="button" class="btn btn-danger" (click)="modal.close(item.id)">Añadir a validación</button>
+<!--     <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+ -->  </div>
+ </div>
+</ng-template>

@@ -36,4 +36,5 @@ export interface Ingreso {
   rutIngreso:         string;
   ucfIngreso:         string;
   url:                string;
+  checked:            boolean;
 }
