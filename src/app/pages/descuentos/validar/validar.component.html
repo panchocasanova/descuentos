@@ -54,7 +54,11 @@
           <td>{{item.ipIngreso}}</td>
           <td>{{item.obs}}</td>
           <td>{{item.url}}</td> -->
-          <td class="float-end"><button class="btn btn-info btn-sm" value="{{item.id}}" (click)="verDetalle($event, modal1)">Ver</button></td>
+          <td class="float-end">
+            <ng-container >
+              <button class="btn btn-info btn-sm" type="button" value="{{item.id}}" (click)="verDetalle($event, modal1)">Ver</button>
+            </ng-container>
+            </td>
         </tr>
       </tbody>
     </table>

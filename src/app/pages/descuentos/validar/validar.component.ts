@@ -82,6 +82,26 @@ export class ValidarComponent implements OnInit{
   }
 
   submitFormValidacion(){
+    console.log(this.formValidacion)
+    Swal.fire({
+      title: "¿Está seguro que desea validar los ingresos seleccionados?",
+      text: "Quedará un registro de la persona que valida cada ingreso.",
+      icon: "warning",
+      width: 850,
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, validar!",
+      cancelButtonText: "No estoy seguro(a)."
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: "Validados!",
+          text: "Los ingresos han sido validados satisfactoriamente.",
+          icon: "success"
+        });
+      }
+    });
 
   }
 
@@ -98,9 +118,12 @@ export class ValidarComponent implements OnInit{
             const ingreso = this.ingresos.find(ingreso => ingreso.id === parseInt(this.closeResult))
             if(ingreso){
               //console.log(ingreso);
-              ingreso.checked = true
-              const checkArray: FormArray = this.formValidacion.get('checkArray') as FormArray
-              checkArray.push(new FormControl(Number(event.target.value)))
+              if(ingreso.checked != true){
+                ingreso.checked = true
+                const checkArray: FormArray = this.formValidacion.get('checkArray') as FormArray
+                checkArray.push(new FormControl(Number(event.target.value)))
+              }
+
             }
           },
           (reason) => {

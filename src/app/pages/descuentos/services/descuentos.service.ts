@@ -68,4 +68,14 @@ export class DescuentosService {
     return this.http.post<any>(url, "", { headers, params})
 
   }
+
+
+  postValidacion(formulario: FormGroup){
+    const url = `${this.apiRemune}/validarIngreso`;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
+
+
+  }
 }
