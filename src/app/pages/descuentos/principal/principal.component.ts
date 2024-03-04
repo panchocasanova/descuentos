@@ -10,7 +10,7 @@ import { List } from '../../buscador/interfaces/buscador-interfaces';
 export class PrincipalComponent {
 
   @Output() principalRut: EventEmitter<List> = new EventEmitter<List>
-  @Output() ejemplo: EventEmitter<string> = new EventEmitter<string>
+  //@Output() ejemplo: EventEmitter<string> = new EventEmitter<string>
 
   funcionario_seleccionado: List
   seleccionado(event: List){

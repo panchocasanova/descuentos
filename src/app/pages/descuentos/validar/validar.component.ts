@@ -1,13 +1,14 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { perfilUsuario } from '../../interfaces/general';
 import { Ingreso } from '../interfaces/descuentos';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { DescuentosService } from '../services/descuentos.service';
 import { detalleIngreso } from '../../buscador/interfaces/buscador-interfaces';
 import Swal from 'sweetalert2';
+import { GeneralService } from '../../services/general.service';
 
 @Component({
   selector: 'app-validar',
@@ -23,28 +24,47 @@ export class ValidarComponent implements OnInit{
   ingresos: Ingreso[] = []
   formValidacion: FormGroup
   detalle: detalleIngreso[] = []
+  reparticion: any
 
 
-  constructor(private activateRoute: ActivatedRoute,
+  constructor(private route: ActivatedRoute,
     private fb: FormBuilder,
-    private descuentoService: DescuentosService
+    private descuentoService: DescuentosService,
+    private generalService: GeneralService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
     ){
     this.formValidacion = this.fb.group({
       checkArray: this.fb.array([], Validators.required)
     })
   }
 
-
-
   ngOnInit() {
-    this.activateRoute.data.subscribe(({ing}) =>{
+    this.dataIngresos()
+    this.rep()
+  }
+
+  rep(){
+    this.generalService.reparticionUsuario().subscribe({
+      next: (data) =>{
+        //console.log(data);
+        this.reparticion = data
+
+      }
+    })
+  }
+
+  dataIngresos(){
+    this.route.data.subscribe(({ing}) =>{
       this.ingresos = ing.ingresos
      this.ingresos.map(response =>{
       response.checked = false
      })
+     console.log(this.ingresos);
 
     })
   }
+
 
   onChangeListAll(event: any) {
     const checkArray: FormArray = this.formValidacion.get('checkArray') as FormArray
@@ -81,8 +101,20 @@ export class ValidarComponent implements OnInit{
     }
   }
 
+  actualizarIngresos(){
+    //this.ingresos = []
+    this.descuentoService.buscarIngresos(this.reparticion).subscribe((response) =>{
+      this.ingresos = response.ingresos
+      console.log(this.ingresos);
+      this.cdr.detectChanges();
+
+    })
+  }
+
+
+
   submitFormValidacion(){
-    console.log(this.formValidacion)
+    //console.log(this.formValidacion)
     Swal.fire({
       title: "¿Está seguro que desea validar los ingresos seleccionados?",
       text: "Quedará un registro de la persona que valida cada ingreso.",
@@ -95,11 +127,27 @@ export class ValidarComponent implements OnInit{
       cancelButtonText: "No estoy seguro(a)."
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire({
-          title: "Validados!",
-          text: "Los ingresos han sido validados satisfactoriamente.",
-          icon: "success"
-        });
+        //console.log(this.reparticion);
+        //console.log(this.formValidacion);
+        this.descuentoService.postValidacion(this.formValidacion).subscribe({
+          next: (result) =>{
+            console.log(result);
+            this.actualizarIngresos()
+
+            Swal.fire({
+              title: "Validados!",
+              text: "Los ingresos han sido validados satisfactoriamente.",
+              icon: "success"
+            });
+            this.vaciarArray()
+
+          },
+          error: (err) =>{
+            console.log(err);
+          }
+        })
+
+
       }
     });
 
@@ -154,6 +202,13 @@ export class ValidarComponent implements OnInit{
 				return `with: ${reason}`;
 		}
 	}
+
+  vaciarArray(){
+    const checkArray: FormArray = this.formValidacion.get('checkArray') as FormArray
+        while (checkArray.length !==0){
+          checkArray.removeAt(0)
+        }
+  }
 
 
 }

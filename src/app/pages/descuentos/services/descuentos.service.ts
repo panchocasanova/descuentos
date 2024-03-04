@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -71,11 +71,32 @@ export class DescuentosService {
 
 
   postValidacion(formulario: FormGroup){
-    const url = `${this.apiRemune}/validarIngreso`;
+
+    const url = `${this.apiRemune}/validar_ingreso`;
     const headers = new HttpHeaders()
       .set('Accept', 'application/json')
       .set('Authorization', 'Bearer ' + this.getTokenRemuneLS())
+      return this.infoUsuario().pipe(
+        switchMap((response: any) => {
+          console.log(response);
+
+          const rut = response.funcionario[0].id_rut;
+          //const body = { rut: rut, sitio: this.sitio };
+          const params = new HttpParams()
+            .append('rut', rut)
+            .append('formulario',formulario.value.checkArray)
+          return this.http.post(url, "", { headers, params });
+        })
+      );
 
 
+  }
+  private infoUsuario(): Observable<any> {
+    const url = `${this.apiRemune}/validar_token`;
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      //.set('Content-Type', 'application/x-www-form-urlencoded')
+      .set('Authorization', 'Bearer ' + this.getTokenRemuneLS());
+    return this.http.get<any>(url, { headers });
   }
 }
