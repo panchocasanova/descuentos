@@ -17,11 +17,17 @@ export class AsideMenuComponent implements OnInit {
 
   perfil: perfilUsuario
   opcion: string
+  admin: boolean = false
 
   ngOnInit(): void {
     this.generalService.usuario().subscribe( data =>{
 
       this.perfil = data
+      //console.log(this.perfil);
+      if(this.perfil.funcionario[0].id_rut === '14174626'){
+        this.admin = true
+      }
+
       //console.log(this.perfil.perfil[0].dt_function.replace(' ', ''));
 
     } )

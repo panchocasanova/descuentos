@@ -10,6 +10,7 @@ import { detalleIngreso } from '../../buscador/interfaces/buscador-interfaces';
 import Swal from 'sweetalert2';
 import { GeneralService } from '../../services/general.service';
 
+
 @Component({
   selector: 'app-validar',
   templateUrl: './validar.component.html',
@@ -47,20 +48,32 @@ export class ValidarComponent implements OnInit{
   rep(){
     this.generalService.reparticionUsuario().subscribe({
       next: (data) =>{
-        //console.log(data);
         this.reparticion = data
-
       }
     })
   }
 
   dataIngresos(){
     this.route.data.subscribe(({ing}) =>{
-      this.ingresos = ing.ingresos
-     this.ingresos.map(response =>{
-      response.checked = false
-     })
-     console.log(this.ingresos);
+      if(ing.ingresos.length > 0){
+        this.ingresos = ing.ingresos
+        this.ingresos.map(response =>{
+          response.checked = false
+         })
+         //console.log(this.ingresos);
+      }else{
+        Swal.fire({
+          title: 'Sin informacion',
+          text: "No existen descuentos para validar en estos momentos.",
+          icon: "info"
+        }).then((result) =>{
+          //console.log(result.isConfirmed);
+          if (result.isConfirmed){
+            this.router.navigate(['/dashboard'])
+          }
+
+        })
+      }
 
     })
   }

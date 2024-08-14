@@ -26,11 +26,14 @@ export class AuthRemuneService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     })
-    const params = new HttpParams()
-      .append('rut', rut)
+    /* const params = new HttpParams()
+      .append('rut', rut) */
       //.append('sitio', this.sitio)
       //.append('ip', ip)
-    return this.http.post<LoginRemunetoken>(url, "", { headers, params} )
+    const body = {
+      rut: rut
+    }
+    return this.http.post<LoginRemunetoken>(url, body, { headers} )
       .pipe(
         tap( response => {
           //console.log('token auth remune', response);

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { WidgetsModule } from '../../_metronic/partials';
+import { dashboardResolver } from '../resolver/dashboard.resolver';
 
 @NgModule({
   declarations: [DashboardComponent],
@@ -12,6 +13,9 @@ import { WidgetsModule } from '../../_metronic/partials';
       {
         path: '',
         component: DashboardComponent,
+        resolve:{
+          perfil: dashboardResolver
+        }
       },
     ]),
     WidgetsModule,

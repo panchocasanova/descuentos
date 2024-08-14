@@ -113,6 +113,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         }
         if(data.error){
+          console.log(data);
+
           //this.hasError = true
           this.loginForm.reset()
           if(data.error.errors.rut ){
